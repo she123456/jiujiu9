@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>丹丹网登录页面</title>
+		<style>
+			.body {
+				margin: 10px auto;
+				border: 2px solid black;
+				width: 420px;
+				height: 540px;
+				border-radius: 20px;
+			}
+			
+			.box1 {
+				width: 420px;
+				height: 350px;
+				border-radius: 20px;
+				position: relative;
+			}
+			
+			#box2 {
+				width: 420px;
+				height: 100px;
+				background-color: white;
+				background-image: url(img/09.jpg);
+			}
+			
+			.xuan {
+				width: 20px;
+				height: 20px;
+			}
+			
+			.pp {
+				color: blue;
+			}
+			
+			#zhuce {
+				width: 380px;
+				margin-left: 15px;
+				margin-right: 15px;
+				height: 53px;
+				margin-top: 10px;
+				background-color: red;
+				border-radius: 37px;
+				text-align: center;
+				visibility: hidden;
+			}
+			
+			#zi {
+				color: white;
+				font-size: 30px;
+				margin-top: 20px;
+				text-decoration: none;
+			}
+			
+			.tupian {
+				width: 410px;
+				height: 73px;
+				margin-top: 5px;
+				margin-left: 5px;
+				border-radius: 35px;
+			}
+			
+			.tu {
+				width: 410px;
+				height: 73px;
+				border-radius: 35px;
+			}
+			
+			.top {
+				width: 420px;
+				height: 60px;
+				border-radius: 18px 18px 0 0;
+				background-image: url(img/09.jpg);
+			}
+			
+			.content1 {
+				width: 420px;
+				height: 280px;
+				background-image: url(img/09.jpg);
+			}
+			
+			#right {
+				width: 120px;
+				height: 60px;
+				border-radius: 35px;
+				float: left;
+				margin-left: 80px;
+				text-align: center;
+			}
+			
+			#left {
+				width: 120px;
+				height: 60px;
+				border-radius: 35px;
+				float: left;
+				margin-left: 50px;
+				text-align: center;
+			}
+			
+			.home {
+				font-size: 30px;
+				text-decoration: none;
+				color: gray;
+				font-weight: 500;
+			}
+			
+			a.home:hover {
+				color: red;
+				text-decoration: underline;
+			}
+			
+			.username {
+				margin-top: 20px;
+				width: 290px;
+				height: 30px;
+				margin-left: 50px;
+			}
+			
+			.password {
+				margin-top: 20px;
+				width: 290px;
+				height: 30px;
+				margin-left: 50px;
+			}
+			
+			.submit {
+				width: 380px;
+				margin-left: 15px;
+				margin-right: 15px;
+				height: 53px;
+				margin-top: 10px;
+				background-image: url(img/88.jpg);
+				border-radius: 37px;
+				text-align: center;
+			}
+			
+			#img {
+				display: inline-block;
+				margin-top: 10px;
+			}
+			
+			#yanz {
+				display: inline-block;
+				margin-top: -20px;
+			}
+			
+			.you {
+				margin-left: 436px;
+				margin-top: -200px;
+				width: 200px;
+				height: 200px;
+				background-color: antiquewhite;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				login_form = document.getElementById("login_form");
+				img = document.getElementById("img");
+				//console.log("start");
+			}
+
+			function show1() {
+				var m = document.getElementById("zhuce");
+				m.style.visibility = "hidden";
+			}
+
+			function show() {
+				var x = document.getElementById("zi");
+				x.innerHTML = "注册";
+				var y = document.getElementById("zhuce");
+				y.style.visibility = "inherit";
+				var f = document.getElementByClassName("submit");
+				f.style.visibility = "hidden";
+
+			}
+
+			function gengxing() {
+
+				img.src = 'http://tech.sky31.top/code.php?=' + Math.random();
+			}
+
+			function login() {
+				//console.log("login");
+				var data = new FormData(login_form);
+				var ajax = new XMLHttpRequest();
+				ajax.onreadystatechange = function() {
+					if(ajax.readyState == 4 && ajax.status == 200) {
+						result = JSON.parse(ajax.responseText);
+						console.log(result);
+
+						console.log("checked");
+						showResponse();
+
+					}
+
+				}
+
+				function showResponse() {
+					document.getElementById("code").innerHTML = result['code'];
+					document.getElementById("msg").innerHTML = result['msg'];
+					document.getElementById("name").innerHTML = result['data']['name'];
+					document.getElementById("sex").innerHTML = result['data']['sex'];
+					document.getElementById("age").innerHTML = result['data']['age'];
+					document.getElementById("phone").innerHTML = result['data']['other']['phone'];
+					document.getElementById("address").innerHTML = result['data']['other']['address'];
+					
+				}
+				ajax.open("POST", "http://tech.sky31.top/login.php", false);
+				ajax.send(data);
+				result = JSON.parse(ajax.responseText);
+
+				console.log(result);
+
+				showResponse();
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="body">
+			<div class="box1">
+				<div class="top">
+					<div id="left">
+						<a class="home" href="#" onclick="show1()"><span id="denglu" style="color:red">登录</span></a>
+					</div>
+					<div id="right">
+						<a class="home" href="#" onclick="show()">注册</a>
+					</div>
+				</div>
+				<div class="content1">
+					<form id="login_form">
+						<input class="username" type="text" name="username" placeholder="请输入用户名" /><br>
+						<input class="password" type="password" name="password" placeholder="请输入密码" /><br>
+						<p id="yanz">验证码：</p>
+						<img id="img" onclick="gengxing()" src="http://tech.sky31.top/code.php" />
+						<input class="code" type="text" name="code" />
+						<input class="submit" type="button" onclick="login()" name="submit" value="登录" target="_blank" />
+					</form>
+
+				</div>
+				<div id="box2">
+					<input type="checkbox" checked="checked" class="xuan">同意使用
+					<<<span class="pp">丹丹网</a>
+						</span>>>协议</input>
+						<div id="zhuce">
+							<a id="zi" href="https://www.imooc.com/">登录</a>
+
+						</div>
+				</div>
+				<div class="tupian">
+					<img src="img/底部的.png" class="tu" />
+				</div>
+			</div>
+
+			<div class="you">
+<p>登录结果：</p>
+				<div id="code"></div>
+				<div id="msg"></div>
+				<div id="name"></div>
+				<div id="sex"></div>
+				<div id="age"></div>
+				<div id="phone"></div>
+				<div id="address"></div>
+				
+<a href="./9.9.php">点我看看乘法表</a>
+			</div>
+	</body>
+
+</html>
